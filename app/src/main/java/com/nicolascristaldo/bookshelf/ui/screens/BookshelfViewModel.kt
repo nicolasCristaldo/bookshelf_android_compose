@@ -26,8 +26,14 @@ class BookshelfViewModel(private val bookshelfRepository: BookshelfRepository): 
     var bookshelfUiState: BookshelfUiState by mutableStateOf(BookshelfUiState.Loading)
         private set
 
+    var selectedBookId by mutableStateOf("")
+
     init {
         getBooks()
+    }
+
+    fun changeSelectedBookId(newId: String) {
+        selectedBookId = newId
     }
 
     fun getBooks() {

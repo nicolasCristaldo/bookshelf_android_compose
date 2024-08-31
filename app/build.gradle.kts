@@ -73,7 +73,6 @@ dependencies {
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
-    implementation(libs.firebase.crashlytics.buildtools)
 
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
