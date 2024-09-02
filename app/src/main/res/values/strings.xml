@@ -5,4 +5,12 @@
     <string name="retry">Retry</string>
     <string name="loading_failed">Loading failed</string>
     <string name="string_arrow_back">Arrow back</string>
+
+    <string name="detail_type_description">Description</string>
+    <string name="detail_type_language">Language</string>
+    <string name="detail_type_authors">Authors</string>
+    <string name="detail_type_categories">Categories</string>
+    <string name="detail_type_publisher">Publisher</string>
+    <string name="detail_type_published_date">Published date</string>
+
 </resources>

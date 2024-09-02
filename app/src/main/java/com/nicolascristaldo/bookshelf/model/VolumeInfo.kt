@@ -1,11 +1,12 @@
 package com.nicolascristaldo.bookshelf.model
 
+import androidx.compose.ui.res.stringResource
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class VolumeInfo(
-    val authors: List<String>,
+    val authors: List<String>?,
     val categories: List<String>,
     val description: String?,
     @SerialName(value = "imageLinks")
@@ -24,10 +25,16 @@ data class VolumeInfo(
 
     fun getAuthors(): String {
         var result = ""
-        for (author in authors) {
-            result += "$author, "
+        if(authors != null) {
+            for (author in authors) {
+                result += "$author, "
+            }
+            result = result.trimEnd(',', ' ')
         }
-        return result.trimEnd(',', ' ')
+        else {
+            result = "Undefined"
+        }
+        return result
     }
 
     fun getCategories(): String {

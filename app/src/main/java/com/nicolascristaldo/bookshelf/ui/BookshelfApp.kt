@@ -1,6 +1,5 @@
 package com.nicolascristaldo.bookshelf.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -40,6 +39,7 @@ fun BookshelfApp() {
         }
     ) {
         Surface(
+            color = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
@@ -62,7 +62,7 @@ fun BookshelfTopAppBar(
             Text(
                 color = MaterialTheme.colorScheme.primary,
                 text = stringResource(id = currentScreen.title),
-                //style = MaterialTheme.typography.displayLarge
+                style = MaterialTheme.typography.displayLarge
             )
         },
         navigationIcon = {

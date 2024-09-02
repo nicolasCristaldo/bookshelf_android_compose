@@ -1,5 +1,6 @@
 package com.nicolascristaldo.bookshelf.ui.screens.details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,20 +11,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nicolascristaldo.bookshelf.R
 import com.nicolascristaldo.bookshelf.model.Book
 import com.nicolascristaldo.bookshelf.model.ImageLink
 import com.nicolascristaldo.bookshelf.model.VolumeInfo
-import com.nicolascristaldo.bookshelf.ui.screens.BookImage
-import com.nicolascristaldo.bookshelf.ui.screens.ErrorScreen
-import com.nicolascristaldo.bookshelf.ui.screens.LoadingScreen
+import com.nicolascristaldo.bookshelf.ui.screens.components.BookImage
+import com.nicolascristaldo.bookshelf.ui.screens.components.ErrorScreen
+import com.nicolascristaldo.bookshelf.ui.screens.components.LoadingScreen
 import com.nicolascristaldo.bookshelf.ui.theme.BookshelfTheme
 
 @Composable
@@ -40,10 +45,7 @@ fun DetailsScreen(
                 .fillMaxSize()
         )
         is DetailsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is DetailsUiState.Error -> ErrorScreen(
-            retryAction = retryAction,
-            modifier = modifier.fillMaxSize()
-        )
+        else -> { ErrorScreen(retryAction = retryAction, modifier = modifier.fillMaxSize()) }
     }
 }
 
@@ -55,17 +57,19 @@ fun BookInformationScreen(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.padding_large))
     ) {
         book.volumeInfo.imageLink?.let {
             BookImage(
                 imgSrc = it.replaceThumbnailHttp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_large))
             )
         }
         book.volumeInfo.title?.let {
             Text(
                 text = it,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.displayMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,78 +78,91 @@ fun BookInformationScreen(
         book.volumeInfo.subtitle?.let {
             Text(
                 text = it,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
             )
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_height)))
 
-        CategoriesRow(
-            category = "author/s",
+        InformationRow(
+            type = stringResource(id = R.string.detail_type_authors),
             content = book.volumeInfo.authorsString
         )
 
         book.volumeInfo.publisher?.let {
-            CategoriesRow(
-                category = "publisher",
+            InformationRow(
+                type = stringResource(id = R.string.detail_type_publisher),
                 content = it
             )
         }
 
         book.volumeInfo.publishedDate?.let {
-            CategoriesRow(
-                category = "publishe date",
+            InformationRow(
+                type = stringResource(id = R.string.detail_type_published_date),
                 content = it
             )
         }
 
-        CategoriesRow(
-            category = "categories",
+        InformationRow(
+            type = stringResource(id = R.string.detail_type_categories),
             content = book.volumeInfo.categoriesString
         )
 
         book.volumeInfo.language?.let {
-            CategoriesRow(
-                category = "language",
+            InformationRow(
+                type = stringResource(id = R.string.detail_type_language),
                 content = it
             )
         }
 
         Text(
-            text = "description",
+            text = stringResource(id = R.string.detail_type_description),
             textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = dimensionResource(id = R.dimen.padding_medium))
                 .fillMaxWidth()
         )
 
         book.volumeInfo.description?.let {
             Text(
                 text = it,
-                modifier = Modifier.padding(vertical = 8.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium))
             )
         }
     }
 }
 
 @Composable
-fun CategoriesRow(
-    category: String,
+fun InformationRow(
+    type: String,
     content: String,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = Modifier.padding(bottom = 8.dp)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(bottom = dimensionResource(id = R.dimen.padding_medium))
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+    ) {
         Text(
-            text = category + ": ",
-            fontWeight = FontWeight.Bold
+            text = type + ": ",
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyLarge,
         )
-        Text(text = content)
+        Text(
+            text = content,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
 
-/*@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun DetailsScreenPreview() {
     BookshelfTheme {
@@ -164,4 +181,4 @@ fun DetailsScreenPreview() {
             )
         ))
     }
-}*/
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_mini">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="grid_cell_size">150dp</dimen>
+    <dimen name="spacer_height">20dp</dimen>
+    <dimen name="loading_image_size">75dp</dimen>
+</resources>
