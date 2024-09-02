@@ -13,8 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.AbsoluteCutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,12 +27,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nicolascristaldo.bookshelf.R
 import com.nicolascristaldo.bookshelf.model.Book
 import com.nicolascristaldo.bookshelf.model.Volumes
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.nicolascristaldo.bookshelf.model.ImageLink
+import com.nicolascristaldo.bookshelf.model.VolumeInfo
+import com.nicolascristaldo.bookshelf.ui.theme.BookshelfTheme
 
 @Composable
 fun HomeScreen(
@@ -63,8 +72,8 @@ fun BooksGridScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
-        modifier = modifier.padding(horizontal = 4.dp),
+        columns = GridCells.Adaptive(150.dp),
+        modifier = modifier.padding(horizontal = 8.dp),
         contentPadding = contentPadding,
     ) {
         items(items = volumes.items, key = { book -> book.id }) { book ->
@@ -73,9 +82,9 @@ fun BooksGridScreen(
                 viewModel = viewModel,
                 onClick = onClick,
                 modifier = modifier
-                    .padding(6.dp)
+                    .padding(2.dp)
                     .fillMaxWidth()
-                    .aspectRatio(1.5f)
+                    //.aspectRatio(0.8f)
             )
         }
     }
@@ -90,15 +99,27 @@ fun BookCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        shape = RoundedCornerShape(0.dp),
         onClick = {
             viewModel.changeSelectedBookId(book.id)
             onClick()
-        }
+        },
+        modifier = modifier
     ) {
-        Column(modifier = Modifier) {
+        Column(
+            modifier = Modifier
+        ) {
             book.volumeInfo.imageLink?.let { BookImage(imgSrc = it.replaceThumbnailHttp) }
         }
-        book.volumeInfo.title?.let { Text(text = it) }
+        book.volumeInfo.title?.let {
+            Text(
+                text = it,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+        }
     }
 }
 
@@ -152,3 +173,56 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         contentDescription = null
     )
 }
+
+/*@Preview(showBackground = true)
+@Composable
+fun BookCardPreview() {
+    BookshelfTheme {
+        val mockdata = Book(
+                id = "1",
+                VolumeInfo(
+                title = "la copa del mundo",
+                imageLink = ImageLink(""),
+                authors = emptyList(),
+                categories = emptyList(),
+                description = "",
+                language = "",
+                publishedDate = "",
+                publisher = "",
+                subtitle = ""
+            )
+        )
+        BookCard(book = mockdata, onClick = {  })
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BookGridScreenPreview() {
+    BookshelfTheme {
+        val mockData = Volumes(
+            items = List(10){
+                Book(
+                    id = "1",
+                    VolumeInfo(
+                        title = "la copa del mundo",
+                        imageLink = ImageLink(""),
+                        authors = emptyList(),
+                        categories = emptyList(),
+                        description = "",
+                        language = "",
+                        publishedDate = "",
+                        publisher = "",
+                        subtitle = ""
+                    )
+                )
+            },
+            totalItems = 10
+        )
+        BooksGridScreen(
+            volumes = mockData,
+            onClick = {},
+            //viewModel = viewModel,
+        )
+    }
+}*/

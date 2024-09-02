@@ -6,7 +6,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.nicolascristaldo.bookshelf.data.BookshelfDestinations
 import com.nicolascristaldo.bookshelf.ui.screens.BookshelfViewModel
 import com.nicolascristaldo.bookshelf.ui.screens.HomeScreen
@@ -15,7 +14,7 @@ import com.nicolascristaldo.bookshelf.ui.screens.details.DetailsViewModel
 
 @Composable
 fun BookshelfNavHost(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     val viewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)

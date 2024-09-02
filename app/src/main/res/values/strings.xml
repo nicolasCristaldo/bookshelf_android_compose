@@ -4,4 +4,5 @@
 
     <string name="retry">Retry</string>
     <string name="loading_failed">Loading failed</string>
+    <string name="string_arrow_back">Arrow back</string>
 </resources>
